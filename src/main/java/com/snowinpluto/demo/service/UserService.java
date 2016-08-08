@@ -14,4 +14,6 @@ public interface UserService {
     public User findById(long id);
 
     public List<User> findByNames(List<String> names);
+
+    public void addExtra(User user);
 }

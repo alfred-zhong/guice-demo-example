@@ -6,6 +6,7 @@ import com.snowinpluto.demo.annotation.AddUser;
 import com.snowinpluto.demo.dao.UserDao;
 import com.snowinpluto.demo.entity.User;
 import com.snowinpluto.demo.service.UserService;
+import org.mybatis.guice.transactional.Transactional;
 
 import java.util.List;
 
@@ -29,5 +30,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByNames(List<String> names) {
         return userDao.findByNames(names);
+    }
+
+    @Transactional
+    @Override
+    public void addExtra(User user) {
+        userDao.add(user);
+
+        user.setName(user.getName().substring(0, user.getName().length() - 1));
+        userDao.add(user);
     }
 }

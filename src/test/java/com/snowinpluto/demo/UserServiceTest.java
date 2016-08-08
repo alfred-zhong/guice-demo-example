@@ -38,4 +38,13 @@ public class UserServiceTest {
     public void testFindByNames() {
         System.out.println(userService.findByNames(Lists.newArrayList("Jack", "Adam")));
     }
+
+    @Test
+    public void testAddExtra() {
+        User user = new User();
+        user.setName("Jack");
+        user.setAge(20);
+
+        userService.addExtra(user);
+    }
 }

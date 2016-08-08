@@ -2,7 +2,10 @@ package com.snowinpluto.demo;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
+import com.snowinpluto.demo.annotation.AddUser;
+import com.snowinpluto.demo.interceptor.AddUserInterceptor;
 import com.snowinpluto.demo.providers.DataSourceProvider;
 import com.snowinpluto.demo.providers.MongoConfigProvider;
 import com.snowinpluto.demo.utils.PropertyUtil;
@@ -47,5 +50,8 @@ public class AppModule extends AbstractModule {
         bind(String.class).annotatedWith(Names.named("mongodb.db"))
                           .toInstance(mongoConfig.getString("mongodb.db"));
         bind(MongoConfig.class).toProvider(MongoConfigProvider.class).in(Singleton.class);
+
+        // 绑定拦截
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(AddUser.class), new AddUserInterceptor());
     }
 }

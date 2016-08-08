@@ -2,6 +2,7 @@ package com.snowinpluto.demo.service.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.snowinpluto.demo.annotation.AddUser;
 import com.snowinpluto.demo.dao.UserDao;
 import com.snowinpluto.demo.entity.User;
 import com.snowinpluto.demo.service.UserService;
@@ -14,6 +15,7 @@ public class UserServiceImpl implements UserService {
     @Inject
     private UserDao userDao;
 
+    @AddUser
     @Override
     public User add(User user) {
         return userDao.add(user);

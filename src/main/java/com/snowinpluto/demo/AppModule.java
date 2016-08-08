@@ -16,7 +16,7 @@ public class AppModule extends AbstractModule {
     @Override
     protected void configure() {
         // JDBC 配置绑定
-        Configuration jdbcConfig = PropertyUtil.getConfiguration("etc/jdbc.properties");
+        Configuration jdbcConfig = PropertyUtil.getConfiguration("jdbc.properties");
 
         bind(String.class).annotatedWith(Names.named("jdbc-0.druid.driver-class")).toInstance(jdbcConfig.getString("jdbc-0.druid.driver-class"));
         bind(String.class).annotatedWith(Names.named("jdbc-0.druid.driver-url")).toInstance(jdbcConfig.getString("jdbc-0.druid.driver-url"));
@@ -38,7 +38,7 @@ public class AppModule extends AbstractModule {
         bind(DataSource.class).toProvider(DataSourceProvider.class).in(Singleton.class);
 
         // Mongo 依赖绑定
-        Configuration mongoConfig = PropertyUtil.getConfiguration("etc/mongodb.properties");
+        Configuration mongoConfig = PropertyUtil.getConfiguration("mongodb.properties");
 
         bind(String.class).annotatedWith(Names.named("mongodb.host"))
                           .toInstance(mongoConfig.getString("mongodb.host"));

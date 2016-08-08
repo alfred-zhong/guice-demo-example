@@ -6,8 +6,10 @@ import com.google.inject.Injector;
 import com.snowinpluto.demo.entity.User;
 import com.snowinpluto.demo.service.UserService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class UserServiceTest {
 
     private UserService userService;

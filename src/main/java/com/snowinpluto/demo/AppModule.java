@@ -1,9 +1,12 @@
 package com.snowinpluto.demo;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
+import com.linagora.crsh.guice.CrashGuiceConfiguration;
+import com.linagora.crsh.guice.CrashGuiceSupport;
 import com.snowinpluto.demo.annotation.AddUser;
 import com.snowinpluto.demo.interceptor.AddUserInterceptor;
 import com.snowinpluto.demo.providers.DataSourceProvider;
@@ -11,6 +14,8 @@ import com.snowinpluto.demo.providers.MongoConfigProvider;
 import com.snowinpluto.demo.utils.PropertyUtil;
 import com.snowinpluto.demo.utils.monogo.MongoConfig;
 import org.apache.commons.configuration.Configuration;
+import org.crsh.auth.AuthenticationPlugin;
+import org.crsh.auth.SimpleAuthenticationPlugin;
 
 import javax.sql.DataSource;
 
@@ -53,5 +58,18 @@ public class AppModule extends AbstractModule {
 
         // 绑定拦截
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(AddUser.class), new AddUserInterceptor());
+
+
+        // CRaSH
+        install(new CrashGuiceSupport());
+    }
+
+    @Provides
+    public CrashGuiceConfiguration crashConfiguration() {
+        return CrashGuiceConfiguration.builder()
+                                      .property(AuthenticationPlugin.AUTH.name, "simple")
+                                      .property(SimpleAuthenticationPlugin.SIMPLE_USERNAME.name, "admin")
+                                      .property(SimpleAuthenticationPlugin.SIMPLE_PASSWORD.name, "123")
+                                      .build();
     }
 }

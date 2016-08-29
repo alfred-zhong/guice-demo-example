@@ -22,7 +22,8 @@ public class UserResource {
 
     @POST
     public User add(User user) {
-        return userService.add(user);
+        //return userService.add(user);
+        return null;
     }
 
     @GET

@@ -1,12 +1,13 @@
 package com.snowinpluto.demo.service.impl;
 
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.snowinpluto.demo.annotation.AddUser;
-import com.snowinpluto.demo.dao.UserDao;
 import com.snowinpluto.demo.entity.User;
+import com.snowinpluto.demo.mybatis.dao.MyBatisDao;
+import com.snowinpluto.demo.mybatis.page.Page;
+import com.snowinpluto.demo.mybatis.page.PageRequest;
 import com.snowinpluto.demo.service.UserService;
-import org.mybatis.guice.transactional.Transactional;
 
 import java.util.List;
 
@@ -14,30 +15,26 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Inject
-    private UserDao userDao;
+    private MyBatisDao myBatisDao;
 
-    @AddUser
     @Override
     public User add(User user) {
-        return userDao.add(user);
+        myBatisDao.insert("addUser", user);
+        return user;
     }
 
     @Override
     public User findById(long id) {
-        return userDao.findById(id);
+        List<User> list = myBatisDao.findForList("findUserById", id);
+
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
     }
 
     @Override
-    public List<User> findByNames(List<String> names) {
-        return userDao.findByNames(names);
-    }
-
-    @Transactional
-    @Override
-    public void addExtra(User user) {
-        userDao.add(user);
-
-        user.setName(user.getName().substring(0, user.getName().length() - 1));
-        userDao.add(user);
+    public Page<User> findUserPage(int pageNum, int pageSize) {
+        return myBatisDao.findForPage("findUser", new PageRequest(pageNum, pageSize, Maps.newHashMap()));
     }
 }

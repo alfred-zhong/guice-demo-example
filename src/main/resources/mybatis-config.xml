@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="localCacheScope" value="STATEMENT" />
+    </settings>
+
+    <plugins>
+        <plugin interceptor="com.snowinpluto.demo.mybatis.plugin.SelectCountSqlInterceptor" />
+        <plugin interceptor="com.snowinpluto.demo.mybatis.plugin.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.snowinpluto.demo.mybatis.dialect.MySQLDialect" />
+        </plugin>
+    </plugins>
+
+    <environments default="test">
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 用户 -->
+        <mapper resource="mapper/user_mapper.xml"/>
+    </mappers>
+</configuration>

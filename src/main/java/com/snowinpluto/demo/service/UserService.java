@@ -2,6 +2,7 @@ package com.snowinpluto.demo.service;
 
 import com.google.inject.ImplementedBy;
 import com.snowinpluto.demo.entity.User;
+import com.snowinpluto.demo.mybatis.page.Page;
 import com.snowinpluto.demo.service.impl.UserServiceImpl;
 
 import java.util.List;
@@ -13,7 +14,5 @@ public interface UserService {
 
     public User findById(long id);
 
-    public List<User> findByNames(List<String> names);
-
-    public void addExtra(User user);
+    public Page<User> findUserPage(int pageNum, int pageSize);
 }

@@ -6,11 +6,15 @@ import com.google.inject.servlet.GuiceServletContextListener;
 
 public class AppServletContextListener extends GuiceServletContextListener {
 
+    public static Injector injector = null;
+
     @Override
     protected Injector getInjector() {
-        return Guice.createInjector(new AppModule(),
-                                    new AppServletModule(),
-                                    new AppMyBatisModule(),
-                                    new AppMvcModule());
+        injector = Guice.createInjector(new AppModule(),
+                                        new AppServletModule(),
+                                        new AppMyBatisModule(),
+                                        new AppMvcModule());
+
+        return injector;
     }
 }
